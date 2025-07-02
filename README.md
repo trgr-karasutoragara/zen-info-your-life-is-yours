@@ -2,6 +2,13 @@
 
 > Minimal AI access and information sovereignty for everyone
 
+## Demo
+### Demo of Ollama and Gemma 3 1B on an Ubuntu Terminal
+https://www.youtube.com/watch?v=joCcloRsYl8
+
+### Demo of SSH Access to Ubuntu Running Gemma3 1B
+https://youtube.com/shorts/qoASaeTOZVg
+
 ## Philosophy
 
 **Equal access to AI should not depend on economic circumstances.**
