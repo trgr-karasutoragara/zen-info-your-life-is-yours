@@ -48,6 +48,7 @@ python gemma_chat_en.py
 Curated global news sources in a single HTML file. Zero JavaScript, zero tracking, infinite scalability.
 
 **Usage:** Set `info-umbrella-2001-08-01.html` as your browser homepage.
+https://trgr-karasutoragara.github.io/zen-info-your-life-is-yours/info-umbrella-2001-08-01.html
 
 ## Multi-User Access
 
