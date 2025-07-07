@@ -1,6 +1,9 @@
 # /.md
 Reading focused markdown viewer with note-taking.
 
+## Demo
+https://youtu.be/llXxeGwUa0k?si=v77H3hg38fGreRC8
+
 ## Screenshots
 
 | **Home screen** | **Screen with a Markdown (.md) file open** |
@@ -69,6 +72,13 @@ Vanilla JavaScript: Written without any frameworks, using pure JavaScript. This 
 marked.js: Uses the de facto standard for Markdown rendering via CDN. A smart choice that avoids reinventing the wheel and makes use of a reliable external resource.
 Command-Line Interface (CLI): Offers both GUI buttons and CLI commands, making it accessible to both beginners and power users. Commands like load, add, and export are intuitive and elegant.
 Data Structure: A simple in-memory database object separates files, reading notes (records), and reading positions (positions). This design is clever and extensible, with future scalability in mind (such as potential SQL integration).
+
+---
+## .PDF to .md - Minimal PDF to Markdown Converter
+
+Educational starter kit for document processing and accessibility
+
+https://github.com/trgr-karasutoragara/zen-info-your-life-is-yours/blob/main/md/pdf_to_md.py
 
 ---
 
