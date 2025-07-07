@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/.md</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.3;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body.mobile {
+            font-size: 11px;
+        }
+
+        body.mobile .main-content {
+            flex-direction: column;
+        }
+
+        body.mobile .sidebar {
+            width: 100%;
+            height: 120px;
+            border-right: none;
+            border-bottom: 1px solid #333;
+        }
+
+        body.mobile .content {
+            padding: 6px;
+        }
+
+        .terminal {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: #111;
+            padding: 6px 12px;
+            border-bottom: 1px solid #333;
+        }
+
+        .title {
+            color: #0f0;
+            font-weight: bold;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+
+        .sidebar {
+            width: 240px;
+            background: #111;
+            border-right: 1px solid #333;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mode-tab {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-right: 4px;
+            background: #333;
+            border: none;
+            color: #0f0;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .mode-tab.active {
+            background: #0f0;
+            color: #000;
+        }
+
+        .content {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+            background: #000;
+        }
+
+        .command-area {
+            background: #111;
+            padding: 6px 8px;
+            border-top: 1px solid #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt {
+            color: #0f0;
+            margin-right: 4px;
+            font-size: 11px;
+        }
+
+        .command-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #0f0;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+        }
+
+        .file-list {
+            list-style: none;
+        }
+
+        .file-item {
+            padding: 2px 0;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+            font-size: 11px;
+        }
+
+        .file-item:hover {
+            background: #222;
+            border-left-color: #0f0;
+        }
+
+        .file-item.active {
+            background: #333;
+            border-left-color: #0f0;
+        }
+
+        .records {
+            margin-top: 12px;
+        }
+
+        .record-item {
+            background: #222;
+            margin: 3px 0;
+            padding: 4px;
+            border-left: 2px solid #555;
+            font-size: 10px;
+        }
+
+        .record-item.current {
+            border-left-color: #0f0;
+        }
+
+        .markdown-content {
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #0f0;
+            margin: 8px 0 4px 0;
+        }
+
+        .markdown-content p {
+            margin: 4px 0;
+        }
+
+        .markdown-content code {
+            background: #333;
+            padding: 1px 2px;
+            color: #ff0;
+        }
+
+        .markdown-content pre {
+            background: #111;
+            padding: 6px;
+            overflow-x: auto;
+            border-left: 2px solid #0f0;
+            margin: 6px 0;
+        }
+
+        .markdown-content blockquote {
+            border-left: 2px solid #666;
+            padding-left: 6px;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .markdown-content ul, .markdown-content ol {
+            padding-left: 12px;
+            margin: 4px 0;
+        }
+
+        .status-line {
+            background: #333;
+            padding: 2px 8px;
+            font-size: 10px;
+            color: #888;
+        }
+
+        .editor-area {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border: none;
+            color: #0f0;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 8px;
+            resize: none;
+            outline: none;
+        }
+
+        .btn {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 4px 8px;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: 10px;
+            margin: 2px;
+        }
+
+        .section-title {
+            color: #0f0;
+            font-size: 11px;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 4px 8px;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: 10px;
+            margin: 2px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        .success {
+            color: #0f0;
+        }
+
+        .warning {
+            color: #ff0;
+        }
+
+        /* Ultra minimal for mobile */
+        body.ultra-light * {
+            animation: none !important;
+            transition: none !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="header">
+            <div class="title">/.md</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div>
+                    <div class="section-title">Files</div>
+                    <div style="margin-bottom: 8px;">
+                        <input type="file" id="fileInput" accept=".md,.txt" style="display: none;" multiple>
+                        <button onclick="openFileDialog()" class="btn" style="width: 100%; margin-bottom: 4px;">Open Files</button>
+                    </div>
+                    <ul class="file-list" id="fileList">
+                        <li class="file-item" data-file="welcome">welcome</li>
+                        <li class="file-item" data-file="help">help</li>
+                    </ul>
+                </div>
+                
+                <div class="records">
+                    <div class="section-title">Records</div>
+                    <div id="recordsList"></div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <div class="content" id="content">
+                    <div class="markdown-content" id="markdownContent">
+                        <h1>/.md</h1>
+                        <p>Reading focused markdown viewer with note-taking.</p>
+                        <p>Commands:</p>
+                        <ul>
+                            <li>load welcome</li>
+                            <li>load help</li>
+                            <li>open</li>
+                            <li>ls</li>
+                            <li>add "reading note"</li>
+                            <li>record list</li>
+                            <li>export</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="status-line">
+                    <span id="statusText">Ready</span>
+                </div>
+                
+                <div class="command-area">
+                    <span class="prompt">$</span>
+                    <input type="text" class="command-input" id="commandInput" placeholder="load welcome" autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Device detection
+        function detectDevice() {
+            const ua = navigator.userAgent;
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+            const isProblematic = /Android.*Chrome/i.test(ua) && /Pixel/i.test(ua);
+            
+            if (isMobile) {
+                document.body.classList.add('mobile');
+            }
+            
+            if (isProblematic) {
+                document.body.classList.add('ultra-light');
+                window.heavyOperationsDisabled = true;
+            }
+            
+            return { isMobile, isProblematic };
+        }
+
+        // Database with reading positions
+        const database = {
+            files: {
+                'welcome': `# /.md
+
+Reading focused markdown viewer with note-taking.
+
+## Purpose
+Read markdown files while taking notes.
+Export notes when finished.
+
+## File Loading
+- Click "Open Files" button to select .md files
+- Use "open" command 
+- Drag and drop .md files anywhere
+
+## Commands
+- open - Select local files
+- load <file> - Load file from list
+- add <note> - Add reading note
+- record list - Show all notes
+- export - Export notes to file
+
+## Simple Workflow
+1. Open your .md files (button or drag/drop)
+2. Read and take notes with "add"
+3. Export notes when done
+
+---
+Focus on reading and note-taking
+
+MIT licensed HTML file - you're free to add or remove features as needed.
+SQL persistence, advanced queries, or any extensions you desire.`,
+                'help': `# Help
+
+## File Commands
+- open - Open local .md files
+- load <file> - Load file from list
+- ls - List available files
+- cat <file> - Show file content
+
+## Note Commands
+- add <note> - Add reading note
+- record list - Show all notes
+- record show <id> - Show specific note
+
+## Export Commands
+- export - Export all notes
+- export txt - Export as plain text
+- export csv - Export as CSV
+
+## Navigation
+- clear - Clear screen
+- status - Show system info
+- help - Show this help
+
+## Examples
+open (select .md files)
+load mybook
+add "interesting point about X"
+add "remember to research Y"
+record list
+export
+
+## File Loading
+- Use "open" command or click "Open Files" button
+- Drag and drop .md files anywhere
+- Load multiple files at once
+
+## Focus
+Read markdown files while taking notes.
+Export notes when finished.
+`
+            },
+            records: [],
+            positions: {}, // Store reading positions per file
+            currentFile: 'welcome'
+        };
+
+        let recordCounter = 1;
+        const deviceInfo = detectDevice();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFile('welcome');
+            setupEventListeners();
+            updateFileList();
+            updateRecordsList();
+            
+            if (deviceInfo.isMobile) {
+                optimizeForMobile();
+            }
+        });
+
+        function optimizeForMobile() {
+            const style = document.createElement('style');
+            style.textContent = `* { transition: none !important; }`;
+            document.head.appendChild(style);
+        }
+
+        function setupEventListeners() {
+            const commandInput = document.getElementById('commandInput');
+            commandInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    executeCommand(this.value.trim());
+                    this.value = '';
+                }
+            });
+
+            // File list clicks
+            document.getElementById('fileList').addEventListener('click', function(e) {
+                if (e.target.classList.contains('file-item')) {
+                    const filename = e.target.dataset.file;
+                    loadFile(filename);
+                    setStatus(`Loaded: ${filename}`, 'success');
+                }
+            });
+
+            // Save position on scroll
+            document.getElementById('markdownContent').addEventListener('scroll', function() {
+                database.positions[database.currentFile] = this.scrollTop;
+            });
+
+            // File input handler
+            document.getElementById('fileInput').addEventListener('change', function(e) {
+                handleFileSelection(e.target.files);
+            });
+
+            // Drag and drop support
+            const dropZone = document.body;
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.dataTransfer.dropEffect = 'copy';
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const files = e.dataTransfer.files;
+                handleFileSelection(files);
+            });
+        }
+
+        function executeCommand(command) {
+            if (!command.trim()) return;
+            
+            const [cmd, ...args] = command.split(' ');
+            setStatus(`> ${command}`);
+
+            switch(cmd.toLowerCase()) {
+                case 'help':
+                    loadFile('help');
+                    break;
+                
+                case 'ls':
+                    showFileList();
+                    break;
+                
+                case 'open':
+                    openFileDialog();
+                    break;
+                
+                case 'cat':
+                case 'load':
+                    if (args[0]) {
+                        const filename = args[0].replace(/\.md$/, '');
+                        if (filename === database.currentFile) {
+                            setStatus(`Already viewing: ${filename}`, 'warning');
+                            return;
+                        }
+                        loadFile(filename);
+                    } else {
+                        setStatus('Error: specify filename', 'error');
+                    }
+                    break;
+                
+                case 'add':
+                    if (args.length > 0) {
+                        addReadingRecord(args.join(' '));
+                    } else {
+                        setStatus('Error: enter note', 'error');
+                    }
+                    break;
+                
+                case 'export':
+                    exportNotes(args[0] || 'json');
+                    break;
+                
+                case 'record':
+                    handleRecordCommand(args);
+                    break;
+                
+                case 'clear':
+                    document.getElementById('markdownContent').innerHTML = '<p>Screen cleared.</p>';
+                    setStatus('Cleared');
+                    break;
+                
+                case 'status':
+                    showStatus();
+                    break;
+                
+                default:
+                    setStatus(`Unknown command: ${cmd}. Type 'help'`, 'error');
+            }
+        }
+
+        function loadFile(filename) {
+            if (database.files[filename]) {
+                const content = database.files[filename];
+                
+                if (window.heavyOperationsDisabled) {
+                    document.getElementById('markdownContent').innerHTML = content.replace(/\n/g, '<br>');
+                } else {
+                    document.getElementById('markdownContent').innerHTML = marked.parse(content);
+                }
+                
+                database.currentFile = filename;
+                updateFileList();
+                setStatus(`Loaded: ${filename}`, 'success');
+                
+                // Restore reading position
+                setTimeout(() => {
+                    if (database.positions[filename]) {
+                        document.getElementById('markdownContent').scrollTop = database.positions[filename];
+                    }
+                }, 100);
+                
+            } else {
+                setStatus(`Error: File '${filename}' not found`, 'error');
+            }
+        }
+
+        function exportNotes(format = 'json') {
+            if (database.records.length === 0) {
+                setStatus('No notes to export', 'warning');
+                return;
+            }
+
+            let content, filename, mimeType;
+            
+            switch(format.toLowerCase()) {
+                case 'txt':
+                    content = database.records.map(record => 
+                        `[${record.id}] ${record.filename} - ${record.timestamp}\n${record.note}\n\n`
+                    ).join('');
+                    filename = 'notes.txt';
+                    mimeType = 'text/plain';
+                    break;
+                    
+                case 'csv':
+                    const csvHeader = 'ID,File,Timestamp,Note\n';
+                    const csvRows = database.records.map(record => 
+                        `${record.id},"${record.filename}","${record.timestamp}","${record.note.replace(/"/g, '""')}"`
+                    ).join('\n');
+                    content = csvHeader + csvRows;
+                    filename = 'notes.csv';
+                    mimeType = 'text/csv';
+                    break;
+                    
+                default: // json
+                    content = JSON.stringify(database.records, null, 2);
+                    filename = 'notes.json';
+                    mimeType = 'application/json';
+            }
+
+            // Create download
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            setStatus(`Exported ${database.records.length} notes as ${format}`, 'success');
+        }
+
+        function openFileDialog() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileSelection(files) {
+            let loadedCount = 0;
+            
+            Array.from(files).forEach(file => {
+                if (file.name.endsWith('.md') || file.name.endsWith('.txt')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const content = e.target.result;
+                        const filename = file.name.replace(/\.(md|txt)$/, '');
+                        
+                        database.files[filename] = content;
+                        loadedCount++;
+                        
+                        if (loadedCount === 1) {
+                            // Auto-load first file
+                            loadFile(filename);
+                        }
+                        
+                        updateFileList();
+                        setStatus(`Loaded ${loadedCount} file(s)`, 'success');
+                    };
+                    reader.readAsText(file);
+                } else {
+                    setStatus(`Skipped: ${file.name} (not .md or .txt)`, 'warning');
+                }
+            });
+            
+            if (files.length === 0 || Array.from(files).every(f => !f.name.endsWith('.md') && !f.name.endsWith('.txt'))) {
+                setStatus('No .md or .txt files selected', 'warning');
+            }
+        }
+
+        function handleRecordCommand(args) {
+            const [subCmd, ...params] = args;
+            
+            switch(subCmd) {
+                case 'list':
+                    showRecordsList();
+                    break;
+                
+                case 'show':
+                    const id = parseInt(params[0]);
+                    showRecord(id);
+                    break;
+                
+                default:
+                    setStatus('Usage: record list | record show <id>', 'warning');
+            }
+        }
+
+        function addReadingRecord(note) {
+            const record = {
+                id: recordCounter++,
+                filename: database.currentFile,
+                note: note,
+                timestamp: new Date().toLocaleString(),
+                position: database.positions[database.currentFile] || 0
+            };
+            database.records.push(record);
+            updateRecordsList();
+            setStatus(`Record added: #${record.id}`, 'success');
+        }
+
+        function showFileList() {
+            const files = Object.keys(database.files);
+            const content = `
+                <h2>Files (${files.length})</h2>
+                <ul>
+                    ${files.map(file => `<li>${file} ${file === database.currentFile ? '(current)' : ''}</li>`).join('')}
+                </ul>
+                <p>Use: load &lt;filename&gt;</p>
+            `;
+            document.getElementById('markdownContent').innerHTML = content;
+            setStatus(`${files.length} files listed`);
+        }
+
+        function showRecordsList() {
+            if (database.records.length === 0) {
+                document.getElementById('markdownContent').innerHTML = '<p>No records found.</p>';
+                setStatus('No records');
+                return;
+            }
+
+            const content = `
+                <h2>Reading Records (${database.records.length})</h2>
+                ${database.records.map(record => `
+                    <div style="background: #222; margin: 4px 0; padding: 6px; border-left: 2px solid #0f0;">
+                        <strong>#${record.id}</strong> ${record.filename}<br>
+                        <em>${record.timestamp}</em><br>
+                        ${record.note}
+                    </div>
+                `).join('')}
+            `;
+            document.getElementById('markdownContent').innerHTML = content;
+            setStatus(`${database.records.length} records shown`);
+        }
+
+        function showRecord(id) {
+            const record = database.records.find(r => r.id === id);
+            if (record) {
+                const content = `
+                    <h2>Record #${record.id}</h2>
+                    <p><strong>File:</strong> ${record.filename}</p>
+                    <p><strong>Date:</strong> ${record.timestamp}</p>
+                    <p><strong>Note:</strong></p>
+                    <blockquote>${record.note}</blockquote>
+                `;
+                document.getElementById('markdownContent').innerHTML = content;
+                setStatus(`Record #${id} shown`);
+                
+                // Offer to load the file at saved position
+                setTimeout(() => {
+                    if (confirm(`Load ${record.filename} at saved position?`)) {
+                        loadFile(record.filename);
+                        if (record.position) {
+                            setTimeout(() => {
+                                document.getElementById('markdownContent').scrollTop = record.position;
+                            }, 100);
+                        }
+                    }
+                }, 1000);
+            } else {
+                setStatus(`Error: Record #${id} not found`, 'error');
+            }
+        }
+
+        function showStatus() {
+            const content = `
+                <h2>System Status</h2>
+                <p><strong>Current File:</strong> ${database.currentFile}</p>
+                <p><strong>Total Files:</strong> ${Object.keys(database.files).length}</p>
+                <p><strong>Total Notes:</strong> ${database.records.length}</p>
+                <p><strong>Device:</strong> ${deviceInfo.isMobile ? 'Mobile' : 'Desktop'}</p>
+                <p><strong>Performance:</strong> ${window.heavyOperationsDisabled ? 'Ultra-light' : 'Normal'}</p>
+                <p><strong>Positions Saved:</strong> ${Object.keys(database.positions).length}</p>
+                <p><strong>Purpose:</strong> Reading + Note-taking</p>
+            `;
+            document.getElementById('markdownContent').innerHTML = content;
+            setStatus('Status displayed');
+        }
+
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            Object.keys(database.files).forEach(filename => {
+                const li = document.createElement('li');
+                li.className = `file-item ${filename === database.currentFile ? 'active' : ''}`;
+                li.dataset.file = filename;
+                li.textContent = filename;
+                fileList.appendChild(li);
+            });
+        }
+
+        function updateRecordsList() {
+            const recordsList = document.getElementById('recordsList');
+            if (database.records.length === 0) {
+                recordsList.innerHTML = '<div style="color: #666; font-size: 10px;">No records</div>';
+                return;
+            }
+
+            recordsList.innerHTML = database.records.slice(-3).reverse().map(record => `
+                <div class="record-item ${record.filename === database.currentFile ? 'current' : ''}">
+                    #${record.id} ${record.filename}<br>
+                    <div style="color: #888;">${record.note.substring(0, 15)}${record.note.length > 15 ? '...' : ''}</div>
+                </div>
+            `).join('');
+        }
+
+        function setStatus(message, type = 'info') {
+            const statusEl = document.getElementById('statusText');
+            statusEl.textContent = message;
+            statusEl.className = type;
+        }
+    </script>
+</body>
+</html>
