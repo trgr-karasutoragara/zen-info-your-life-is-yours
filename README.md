@@ -72,7 +72,7 @@ This toolkit addresses:
 - **Technological Sovereignty**: No dependence on foreign cloud services
 
 ## /.md: Reading focused markdown viewer with note-taking.
-A new addition to this series is now available. Learn more here → [link](https://github.com/trgr-karasutoragara/zen-info-your-life-is-yours/)
+A new addition to this series is now available. Learn more here → [link](https://github.com/trgr-karasutoragara/zen-info-your-life-is-yours/tree/main/md)
 
 ## License
 
