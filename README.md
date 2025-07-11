@@ -10,12 +10,21 @@ https://www.youtube.com/watch?v=joCcloRsYl8
 https://youtube.com/shorts/qoASaeTOZVg
 
 ## Philosophy
+**Equal access to AI should not depend on economic circumstances**.
 
-**Equal access to AI should not depend on economic circumstances.**
+Born in a privileged context, **I** feel an ethical duty to  
+- support developing regions,  
+- fight information overload & fake news, and  
+- lessen the burdens on future generations.
 
-This toolkit provides two fundamental solutions:
-- **Local AI Chat**: Direct access to Gemma 3 1B without cloud dependencies
-- **Information Umbrella**: Static defense against information overload and fake news
+*Local gov. outreach logged (JP, Jul 2025) — feedback pending.*
+
+---
+
+### What this toolkit offers
+1. **Local AI Chat** – direct access to Gemma 3 1B, no cloud dependency.  
+2. **Information Umbrella** – static defense against overload and fake news.
+
 
 ## Why Gemma 3 1B + Minimal Structure
 
