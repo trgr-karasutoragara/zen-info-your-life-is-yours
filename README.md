@@ -53,6 +53,11 @@ ollama pull gemma3:1b
 python gemma_chat_en.py
 ```
 
+#### [Here is the prototype for reading books with AI](https://github.com/trgr-karasutoragara/AI-empowers-your-mind-to-reach-anywhere/tree/main/txt-md-is-all-you-need/)
+
+I've also released 'AI-empowers-your-mind-to-reach-anywhere' that reads .txt and .md files in Ubuntu terminal and calls both open-source local LLMs and APIs. It's the same as this program with SSH access capabilities, so please feel free to try it if you're interested.
+
+
 ### 2. Information Umbrella (`info-umbrella/`)
 Curated global news sources in a single HTML file. Zero JavaScript, zero tracking, infinite scalability.
 
