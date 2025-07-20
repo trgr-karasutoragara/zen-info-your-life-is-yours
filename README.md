@@ -1,3 +1,9 @@
+![MIT](https://img.shields.io/github/license/trgr-karasutoragara/zen-info-your-life-is-yours)
+![Stars](https://img.shields.io/github/stars/trgr-karasutoragara/zen-info-your-life-is-yours?style=social)
+![Last Commit](https://img.shields.io/github/last-commit/trgr-karasutoragara/zen-info-your-life-is-yours)
+
+<br>
+
 # Democratize AI Toolkit
 
 > Minimal AI access and information sovereignty for everyone
