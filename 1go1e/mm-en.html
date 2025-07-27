@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ichigo Ichi-e - One Time, One Meeting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #183A2A;
+            color: #F1F3EB;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .controls-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+        }
+        
+        .controls-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        
+        .btn {
+            background-color: rgba(241, 243, 235, 0.1);
+            border: 1px solid rgba(241, 243, 235, 0.3);
+            color: #F1F3EB;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: rgba(241, 243, 235, 0.2);
+            border-color: rgba(241, 243, 235, 0.5);
+        }
+        
+        .btn:active {
+            background-color: rgba(241, 243, 235, 0.3);
+        }
+        
+        #memoArea {
+            width: 100%;
+            height: calc(100vh - 120px);
+            background-color: transparent;
+            border: 1px solid rgba(241, 243, 235, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            color: #F1F3EB;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 40px;
+        }
+        
+        /* Scrollbar styling (Webkit: Chrome, Safari) */
+        #memoArea::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #memoArea::-webkit-scrollbar-track {
+            background-color: rgba(241, 243, 235, 0.1);
+            border-radius: 4px;
+        }
+        
+        #memoArea::-webkit-scrollbar-thumb {
+            background-color: rgba(241, 243, 235, 0.3);
+            border-radius: 4px;
+        }
+        
+        #memoArea::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(241, 243, 235, 0.5);
+        }
+        
+        /* Firefox scrollbar styling */
+        #memoArea {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(241, 243, 235, 0.3) rgba(241, 243, 235, 0.1);
+        }
+        
+        #memoArea::placeholder {
+            color: rgba(241, 243, 235, 0.5);
+        }
+        
+        #memoArea:focus {
+            border-color: rgba(241, 243, 235, 0.4);
+        }
+        
+        .branding {
+            position: fixed;
+            bottom: 60px;
+            left: 20px;
+            font-size: 12px;
+            color: rgba(241, 243, 235, 0.6);
+            line-height: 1.4;
+        }
+        
+        .branding .title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .branding .subtitle {
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        
+        .branding .credit {
+            font-size: 10px;
+            color: rgba(241, 243, 235, 0.4);
+        }
+        
+        .branding a {
+            color: rgba(241, 243, 235, 0.5);
+            text-decoration: none;
+        }
+        
+        .branding a:hover {
+            color: rgba(241, 243, 235, 0.7);
+        }
+        
+        .usage-note {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 10px;
+            color: rgba(241, 243, 235, 0.4);
+            line-height: 1.3;
+            max-width: 300px;
+        }
+        
+        .concept-note {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 10px;
+            color: rgba(241, 243, 235, 0.5);
+            line-height: 1.3;
+            max-width: 250px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls-left">
+            <button class="btn" onclick="clearAll()">Clear All</button>
+        </div>
+        
+        <div class="controls-right">
+            <button class="btn" onclick="copyAll()">Copy All</button>
+        </div>
+        
+        <textarea 
+            id="memoArea" 
+            placeholder="Capture thoughts. Embrace this moment of Ichigo Ichi-e."
+            spellcheck="false"
+        ></textarea>
+    </div>
+    
+    <div class="concept-note">
+        <strong>Ichigo Ichi-e (一期一会)</strong><br>
+        "A once-in-a-lifetime encounter"<br>
+        Treasure this moment of writing.
+    </div>
+    
+    <div class="branding">
+        <div class="title">Ichigo Ichi-e</div>
+        <div class="subtitle">一期一会 - one time, one meeting</div>
+        <div class="credit">
+            © <a href="https://github.com/trgr-karasutoragara/zen-info-your-life-is-yours/tree/main/1go1e" target="_blank">Trgr KarasuToragara</a>
+        </div>
+    </div>
+    
+    <div class="usage-note">
+        <strong>Recommended:</strong> Desktop browsers<br>
+        <strong>Mobile:</strong> Use Chrome "Desktop site" mode<br>
+        <strong>iOS:</strong> Button limitations exist. Please use Select All → manual copy
+    </div>
+
+    <script>
+        // localStorage auto-save functionality
+        const STORAGE_KEY = 'ichigo_ichi_e_memo_en';
+        const memoArea = document.getElementById('memoArea');
+        
+        // Auto-save functionality
+        function saveToStorage() {
+            const data = {
+                content: memoArea.value,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+        
+        // Load saved text on page load
+        function loadFromStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    memoArea.value = data.content || '';
+                } catch (e) {
+                    console.error('Failed to load saved data:', e);
+                }
+            }
+        }
+        
+        // Auto-save on input with debounce
+        let saveTimeout;
+        memoArea.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(saveToStorage, 500);
+        });
+        
+        // Load on page ready
+        window.addEventListener('load', loadFromStorage);
+
+        // Copy all function (desktop version)
+        function copyAll() {
+            const text = memoArea.value;
+            if (text.trim() === '') {
+                return;
+            }
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopySuccess();
+                }).catch(() => {
+                    // Fallback
+                    if (fallbackCopy(text)) {
+                        showCopySuccess();
+                    } else {
+                        alert('Copy failed. Please use Ctrl+A to select all, then Ctrl+C to copy.');
+                    }
+                });
+            } else {
+                if (fallbackCopy(text)) {
+                    showCopySuccess();
+                } else {
+                    alert('Copy failed. Please use Ctrl+A to select all, then Ctrl+C to copy.');
+                }
+            }
+        }
+        
+        function fallbackCopy(text) {
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            tempTextArea.style.position = 'fixed';
+            tempTextArea.style.left = '-9999px';
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            let success = false;
+            try {
+                success = document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+            }
+            
+            document.body.removeChild(tempTextArea);
+            return success;
+        }
+        
+        function showCopySuccess() {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+
+        // Clear all function
+        function clearAll() {
+            if (memoArea.value.trim() === '') return;
+            
+            const confirmMessage = 'This will permanently delete all text.\n\nThis action cannot be undone.\nAre you sure you want to proceed?';
+            if (confirm(confirmMessage)) {
+                memoArea.value = '';
+                localStorage.removeItem(STORAGE_KEY);
+                memoArea.focus();
+            }
+        }
+        
+        // Initial focus
+        window.addEventListener('load', function() {
+            memoArea.focus();
+        });
+    </script>
+</body>
+</html>
