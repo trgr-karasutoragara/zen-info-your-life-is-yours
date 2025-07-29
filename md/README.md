@@ -80,6 +80,18 @@ Educational starter kit for document processing and accessibility
 
 https://github.com/trgr-karasutoragara/zen-info-your-life-is-yours/blob/main/md/pdf_to_md.py
 
+<br>
+
+## Repository Policy
+
+- I develop prototypes with a focus on ethics.
+- There are no plans for maintenance or support.
+- The project is released under the MIT License, so feel free to modify it within the scope of the license.
+- Instead of providing support, I create new prototypes to solve emerging problems.
+
+<br>
+
+
 ---
 
 MIT licensed HTML file - you're free to add or remove features as needed. SQL persistence, advanced queries, or any extensions you desire.
