@@ -25,12 +25,17 @@ Born in a privileged context, **I** feel an ethical duty to
 
 *Local gov. outreach logged (JP, Jul 2025) — feedback pending.*
 
+<br>
+
 ---
+
+<br>
 
 ### What this toolkit offers
 1. **Local AI Chat** – direct access to Gemma 3 1B, no cloud dependency.  
 2. **Information Umbrella** – static defense against overload and fake news.
 
+<br>
 
 ## Why Gemma 3 1B + Minimal Structure
 
@@ -41,6 +46,8 @@ Born in a privileged context, **I** feel an ethical duty to
 **Educational Focus**: Minimal starter code teaches principles, not just tools. Students build their own features.
 
 **Resilience**: Static files and local AI survive internet censorship, infrastructure failures, and algorithmic manipulation.
+
+<br>
 
 ## Components
 
@@ -83,6 +90,8 @@ https://trgr-karasutoragara.github.io/zen-info-your-life-is-yours/info-umbrella-
 
 **Cost Advantage**: Defense through simplicity rather than expensive algorithmic arms races.
 
+<br>
+
 ## Global Impact
 
 This toolkit addresses:
@@ -94,9 +103,22 @@ This toolkit addresses:
 ## /.md: Reading focused markdown viewer with note-taking.
 A new addition to this series is now available. Learn more here → [link](https://github.com/trgr-karasutoragara/zen-info-your-life-is-yours/tree/main/md)
 
+<br>
+
 ## License
 
 MIT License - Use freely, modify freely, distribute freely.
+
+<br>
+
+## Repository Policy
+
+- I develop prototypes with a focus on ethics.
+- There are no plans for maintenance or support.
+- The project is released under the MIT License, so feel free to modify it within the scope of the license.
+- Instead of providing support, I create new prototypes to solve emerging problems.
+
+<br>
 
 ## Final Message
 
